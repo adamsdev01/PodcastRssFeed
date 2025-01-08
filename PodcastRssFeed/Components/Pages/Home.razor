@@ -1,7 +1,32 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>RSS Feed</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Joe Budden Podcast RSS Feed</h1>
+<hr />
+<ul>
+    @if (feedItems == null)
+    {
+        <li>Loading...</li>
+    }
+    else
+    {
+        @foreach (var item in feedItems)
+        {
+            <li>
+                <a href="@item.Links.FirstOrDefault()?.Uri" target="_blank">@item.Title.Text</a>
+                <textarea rows="8" cols="150">@item.Summary.Text</textarea>
+            </li>
+        }
+    }
+</ul>
 
-Welcome to your new app.
+@code {
+    private List<SyndicationItem> feedItems;
+
+    protected override async Task OnInitializedAsync()
+    {
+        feedItems = await _rssFeedService.GetRssFeedAsync("https://jbpod.libsyn.com/applepodcast");
+    }
+
+}

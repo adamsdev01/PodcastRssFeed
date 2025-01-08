@@ -1,10 +1,14 @@
 using PodcastRssFeed.Components;
+using PodcastRssFeed.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+// Register RssFeedService with HttpClient
+builder.Services.AddHttpClient<RssFeedService>();      
 
 var app = builder.Build();
 
